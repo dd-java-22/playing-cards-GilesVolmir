@@ -6,11 +6,13 @@ public final class Card implements Comparable<Card> {
 
   private final Rank rank;
   private final Suit suit;
+  private final String strRepr;
 
 
   public Card(Rank rank, Suit suit) {
     this.rank = rank;
     this.suit = suit;
+    this.strRepr = "%s of %s".formatted(rank, suit);
   }
 
   public Rank getRank() {
@@ -28,6 +30,15 @@ public final class Card implements Comparable<Card> {
 
   @Override
   public int compareTo(Card other) {
-    throw new UnsupportedOperationException("Not yet implemented!");
+    int result = this.suit.compareTo(other.suit);
+    if (result == 0) {
+      result = this.rank.compareTo(other.rank);
+    }
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return strRepr;
   }
 }

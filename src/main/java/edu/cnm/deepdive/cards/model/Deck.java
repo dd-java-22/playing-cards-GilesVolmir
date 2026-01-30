@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.random.RandomGenerator;
 
 public class Deck {
@@ -35,5 +36,20 @@ public class Deck {
 
   public void sort(Comparator<Card> comparator) {
     cards.sort(comparator);
+    dealer = cards.iterator();
+  }
+
+  /**
+   *
+   * @return
+   * @throws NoSuchElementException If the deck is empty.
+   */
+  public Card deal() throws NoSuchElementException {
+      return dealer.next();
+  }
+
+  @Override
+  public String toString() {
+    return cards.toString();
   }
 }
