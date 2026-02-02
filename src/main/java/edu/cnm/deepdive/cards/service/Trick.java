@@ -3,9 +3,8 @@ package edu.cnm.deepdive.cards.service;
 import edu.cnm.deepdive.cards.model.Card;
 import edu.cnm.deepdive.cards.model.Deck;
 import edu.cnm.deepdive.cards.model.Suit.Color;
-import edu.cnm.deepdive.cards.model.blackFirstComparator;
-import edu.cnm.deepdive.cards.model.redFirstComparator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.random.RandomGenerator;
 
@@ -69,5 +68,29 @@ public class Trick {
     System.out.println(blackPile);
     System.out.println("Red Pile");
     System.out.println(redPile);
+  }
+}
+
+class blackFirstComparator implements Comparator<Card> {
+
+  @Override
+  public int compare(Card card1, Card card2) {
+    int result = card1.getColor().compareTo(card2.getColor());
+    if (result == 0) {
+      result = card1.compareTo(card2);
+    }
+    return result;
+  }
+}
+
+class redFirstComparator implements Comparator<Card> {
+
+  @Override
+  public int compare(Card card1, Card card2) {
+    int result = -card1.getColor().compareTo(card2.getColor());
+    if (result == 0) {
+      result = card1.compareTo(card2);
+    }
+    return result;
   }
 }
