@@ -10,7 +10,7 @@ public class Main {
     Deck deck = new Deck();
     RandomGenerator rng = RandomGenerator.getDefault();
     Trick trick = new Trick(deck, rng);
-    trick.perform();
+    trick.perform(true);
     trick.reveal();
   }
 }
