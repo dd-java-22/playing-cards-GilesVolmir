@@ -37,7 +37,7 @@ public class Trick {
     }
 
     if (swap) {
-      int maxSwap = Math.min(blackPile.size(),redPile.size());
+      int maxSwap = Math.min(blackPile.size(), redPile.size());
       int nSwaps = rng.nextInt(maxSwap) + 1;  // random from {1, 2, ..., maxSwap}
       for (int i = 0; i < nSwaps; i++) {
         redPile.add(blackPile.removeFirst());
@@ -69,28 +69,29 @@ public class Trick {
     System.out.println("Red Pile");
     System.out.println(redPile);
   }
-}
 
-class blackFirstComparator implements Comparator<Card> {
 
-  @Override
-  public int compare(Card card1, Card card2) {
-    int result = card1.getColor().compareTo(card2.getColor());
-    if (result == 0) {
-      result = card1.compareTo(card2);
+  private static class blackFirstComparator implements Comparator<Card> {
+
+    @Override
+    public int compare(Card card1, Card card2) {
+      int result = card1.getColor().compareTo(card2.getColor());
+      if (result == 0) {
+        result = card1.compareTo(card2);
+      }
+      return result;
     }
-    return result;
   }
-}
 
-class redFirstComparator implements Comparator<Card> {
+  private static class redFirstComparator implements Comparator<Card> {
 
-  @Override
-  public int compare(Card card1, Card card2) {
-    int result = -card1.getColor().compareTo(card2.getColor());
-    if (result == 0) {
-      result = card1.compareTo(card2);
+    @Override
+    public int compare(Card card1, Card card2) {
+      int result = -card1.getColor().compareTo(card2.getColor());
+      if (result == 0) {
+        result = card1.compareTo(card2);
+      }
+      return result;
     }
-    return result;
   }
 }
