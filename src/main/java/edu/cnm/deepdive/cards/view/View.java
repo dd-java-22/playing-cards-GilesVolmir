@@ -14,7 +14,11 @@ public class View {
     System.out.println(deck);
     RandomGenerator rng = RandomGenerator.getDefault();
     Trick trick = new Trick(deck, rng);
-    TrickResult result = trick.perform(true);
+    trick.perform();
+    System.out.println("Now we'll swap some cards");
+    int nSwaps = trick.swap();
+    System.out.printf("I've swapped %d card%s between our piles%n", nSwaps, nSwaps==1?"":"s");
+    TrickResult result = trick.getResult();
     System.out.println("Here's the result:");
     System.out.println(result);
   }

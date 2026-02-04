@@ -42,7 +42,7 @@ public class Trick {
     redPile = new ArrayList<>();
   }
 
-  public TrickResult perform(boolean swap) {
+  public void perform() {
     blackPile.clear();
     redPile.clear();
     deck.shuffle(rng);
@@ -54,22 +54,26 @@ public class Trick {
         redPile.add(deck.deal());
       }
     }
+  }
 
-    if (swap) {
-      int maxSwap = Math.min(blackPile.size(), redPile.size());
-      int nSwaps = rng.nextInt(maxSwap) + 1;  // random from {1, 2, ..., maxSwap}
-      for (int i = 0; i < nSwaps; i++) {
-        redPile.add(blackPile.removeFirst());
-        blackPile.add(redPile.removeFirst());
-      }
+  public int swap() {
+    int maxSwap = Math.min(blackPile.size(), redPile.size());
+    int nSwaps = rng.nextInt(maxSwap) + 1;  // random from {1, 2, ..., maxSwap}
+    for (int i = 0; i < nSwaps; i++) {
+      redPile.add(blackPile.removeFirst());
+      blackPile.add(redPile.removeFirst());
     }
+    return nSwaps;
+  }
 
+  public TrickResult getResult() {
     return new TrickResult(blackPile, redPile);
+  }
+
+}
+
+
 //    blackPile.sort(
 //        Comparator.comparing(Card::getColor).thenComparing(Card::compareTo));
 //    redPile.sort(
 //        Comparator.comparing(Card::getColor).reversed().thenComparing(Card::compareTo));
-  }
-
-
-}
