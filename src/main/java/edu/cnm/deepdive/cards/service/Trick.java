@@ -4,7 +4,6 @@ import edu.cnm.deepdive.cards.model.Card;
 import edu.cnm.deepdive.cards.model.Deck;
 import edu.cnm.deepdive.cards.model.Suit.Color;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.random.RandomGenerator;
 
@@ -12,9 +11,29 @@ public class Trick {
 
   private final Deck deck;
   private final RandomGenerator rng;
-
   private final List<Card> blackPile;
   private final List<Card> redPile;
+
+  public record TrickResult(List<Card> blackPile, List<Card> redPile) {
+
+    @Override
+    public String toString() {
+      long redInRedCount = redPile.stream()
+          .filter((card) -> {
+            return card.getColor() == Color.RED;
+          })
+          .count();
+      long blackInBlackCount = blackPile.stream().
+          filter((card) -> {
+            return card.getColor() == Color.BLACK;
+          })
+          .count();
+      String redInRedString = "Number of Red Cards in the Red Pile: %d".formatted(redInRedCount);
+      String blackInBlackString = "Number of Black Cards in the Black Pile: %d".formatted(blackInBlackCount);
+      String pileContents = "Red Pile: %s%nBlackPile: %s".formatted(redPile,blackPile);
+      return "%s%n%s%n%s".formatted(redInRedString, blackInBlackString, pileContents);
+    }
+  }
 
   public Trick(Deck deck, RandomGenerator rng) {
     this.deck = deck;
@@ -23,7 +42,7 @@ public class Trick {
     redPile = new ArrayList<>();
   }
 
-  public void perform(boolean swap) {
+  public TrickResult perform(boolean swap) {
     blackPile.clear();
     redPile.clear();
     deck.shuffle(rng);
@@ -45,30 +64,12 @@ public class Trick {
       }
     }
 
-    blackPile.sort(
-        Comparator.comparing(Card::getColor).thenComparing(Card::compareTo));
-    redPile.sort(
-        Comparator.comparing(Card::getColor).reversed().thenComparing(Card::compareTo));
-
-    int blackInBlackPile = 0;
-    for (Card card : blackPile) {
-      if (card.getColor().equals(Color.BLACK)) {
-        blackInBlackPile++;
-      }
-    }
-    int redInRedPile = 0;
-    for (Card card : redPile) {
-      if (card.getColor().equals(Color.RED)) {
-        redInRedPile++;
-      }
-    }
-    assert blackInBlackPile == redInRedPile;
+    return new TrickResult(blackPile, redPile);
+//    blackPile.sort(
+//        Comparator.comparing(Card::getColor).thenComparing(Card::compareTo));
+//    redPile.sort(
+//        Comparator.comparing(Card::getColor).reversed().thenComparing(Card::compareTo));
   }
 
-  public void reveal() {
-    System.out.println("Black Pile:");
-    System.out.println(blackPile);
-    System.out.println("Red Pile");
-    System.out.println(redPile);
-  }
+
 }
