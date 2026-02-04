@@ -45,20 +45,10 @@ public class Trick {
       }
     }
 
-    blackPile.sort((card1, card2) -> {
-      int result = card1.getColor().compareTo(card2.getColor());
-      if (result == 0) {
-        result = card1.compareTo(card2);
-      }
-      return result;
-    });
-    redPile.sort((card1, card2) -> {
-      int result = -card1.getColor().compareTo(card2.getColor());
-      if (result == 0) {
-        result = card1.compareTo(card2);
-      }
-      return result;
-    });
+    blackPile.sort(
+        Comparator.comparing(Card::getColor).thenComparing(Card::compareTo));
+    redPile.sort(
+        Comparator.comparing(Card::getColor).reversed().thenComparing(Card::compareTo));
 
     int blackInBlackPile = 0;
     for (Card card : blackPile) {
