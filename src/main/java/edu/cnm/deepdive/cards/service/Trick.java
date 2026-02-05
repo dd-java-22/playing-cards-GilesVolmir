@@ -3,7 +3,6 @@ package edu.cnm.deepdive.cards.service;
 import edu.cnm.deepdive.cards.model.Card;
 import edu.cnm.deepdive.cards.model.Deck;
 import edu.cnm.deepdive.cards.model.Suit.Color;
-import edu.cnm.deepdive.cards.view.View.TrickResult;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
