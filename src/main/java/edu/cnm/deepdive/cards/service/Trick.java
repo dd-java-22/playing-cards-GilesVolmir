@@ -3,8 +3,11 @@ package edu.cnm.deepdive.cards.service;
 import edu.cnm.deepdive.cards.model.Card;
 import edu.cnm.deepdive.cards.model.Deck;
 import edu.cnm.deepdive.cards.model.Suit.Color;
+import edu.cnm.deepdive.cards.view.View.TrickResult;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.random.RandomGenerator;
 
 public class Trick {
@@ -13,27 +16,6 @@ public class Trick {
   private final RandomGenerator rng;
   private final List<Card> blackPile;
   private final List<Card> redPile;
-
-  public record TrickResult(List<Card> blackPile, List<Card> redPile) {
-
-    @Override
-    public String toString() {
-      long redInRedCount = redPile.stream()
-          .filter((card) -> {
-            return card.getColor() == Color.RED;
-          })
-          .count();
-      long blackInBlackCount = blackPile.stream().
-          filter((card) -> {
-            return card.getColor() == Color.BLACK;
-          })
-          .count();
-      String redInRedString = "Number of Red Cards in the Red Pile: %d".formatted(redInRedCount);
-      String blackInBlackString = "Number of Black Cards in the Black Pile: %d".formatted(blackInBlackCount);
-      String pileContents = "Red Pile: %s%nBlackPile: %s".formatted(redPile,blackPile);
-      return "%s%n%s%n%s".formatted(redInRedString, blackInBlackString, pileContents);
-    }
-  }
 
   public Trick(Deck deck, RandomGenerator rng) {
     this.deck = deck;
@@ -66,12 +48,14 @@ public class Trick {
     return nSwaps;
   }
 
-  public TrickResult getResult() {
-    return new TrickResult(blackPile, redPile);
+  public Map<Color, List<Card>> getResult() {
+    return Map.of(
+        Color.BLACK, Collections.unmodifiableList(blackPile),
+        Color.RED, Collections.unmodifiableList(redPile)
+    );
   }
 
 }
-
 
 //    blackPile.sort(
 //        Comparator.comparing(Card::getColor).thenComparing(Card::compareTo));
